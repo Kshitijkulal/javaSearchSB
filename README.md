@@ -37,7 +37,6 @@ Make sure your database schema is set up. Place your data.sql file in the src/ma
 Example data.sql:
 
 sql
-Copy code
 -- Sample data for SUPPLIER table
 INSERT INTO SUPPLIER (SUPPLIER_ID, COMPANY_NAME, WEBSITE, LOCATION, NATURE_OF_BUSINESS) VALUES
 (1, 'ABC Manufacturing', 'http://abc.com', 'India', 'SMALL_SCALE'),
@@ -55,13 +54,11 @@ Build the project using Maven or Gradle.
 Maven:
 
 bash
-Copy code
 mvn clean install
 mvn spring-boot:run
 Gradle:
 
 bash
-Copy code
 ./gradlew build
 ./gradlew bootRun
 Usage
@@ -81,7 +78,6 @@ size (int) - Number of records per page (default: 10)
 Example Request:
 
 http
-Copy code
 GET /suppliers?location=India&natureOfBusiness=SMALL_SCALE&processes=3D_PRINTING,COATING&page=0&size=10
 Example Response:
 
