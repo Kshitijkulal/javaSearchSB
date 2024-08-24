@@ -24,7 +24,6 @@ cd supplier-management-system
 Update the application.properties file to configure your database connection. Here’s an example for PostgreSQL:
 
 properties
-Copy code
 spring.datasource.url=jdbc:postgresql://localhost:5432/yourdatabase
 spring.datasource.username=yourusername
 spring.datasource.password=yourpassword
@@ -81,8 +80,6 @@ http
 GET /suppliers?location=India&natureOfBusiness=SMALL_SCALE&processes=3D_PRINTING,COATING&page=0&size=10
 Example Response:
 
-json
-Copy code
 [
   {
     "supplierId": 1,
