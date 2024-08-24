@@ -10,8 +10,6 @@ Welcome to the Makersharks Supplier Search API project! This API allows buyers t
 5. [Testing the API](#testing-the-api)
 6. [Configuration](#configuration)
 7. [Database Initialization](#database-initialization)
-8. [Contributing](#contributing)
-9. [License](#license)
 
 ## Project Overview
 
@@ -26,9 +24,10 @@ This is a proof-of-concept API built using Spring Boot.
 
 ### Prerequisites
 
-- JDK 11 or higher
+- JDK 17 or higher
 - Maven
 - H2 Database (for development and testing)
+- Postman (for sending Requests)
 
 ### Installation
 
@@ -110,6 +109,22 @@ You can use tools like `curl`, Postman, or any HTTP client to test the API. Here
     curl -X POST "http://localhost:8080/api/supplier/query" \
     -H "Content-Type: application/json" \
     -d '{
+        "location": "India",
+        "natureOfBusiness": "SMALL_SCALE",
+        "manufacturingProcesses": ["_3D_PRINTING"],
+        "page": 0,
+        "size": 10
+    }'
+    ```
+    ### Example `PowerShell` Commandd
+
+2. **Query Suppliers:**
+
+    ```bash
+    Invoke-RestMethod -Uri "http://localhost:8080/api/supplier/query" `
+    -Method Post `
+    -Headers @{ "Content-Type" = "application/json" } `
+    -Body '{
         "location": "India",
         "natureOfBusiness": "SMALL_SCALE",
         "manufacturingProcesses": ["_3D_PRINTING"],
