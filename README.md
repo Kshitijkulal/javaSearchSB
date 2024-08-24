@@ -1,116 +1,184 @@
-markdown
-Copy code
-# Supplier Management System
+# Makersharks Supplier Search API
 
-## Overview
+Welcome to the Makersharks Supplier Search API project! This API allows buyers to search for manufacturers based on customized requirements. This README provides detailed instructions on how to set up, run, and use the API.
 
-The Supplier Management System is designed to manage supplier data and their associated manufacturing processes. It includes features to query suppliers based on location, nature of business, and manufacturing processes.
+## Table of Contents
+1. [Project Overview](#project-overview)
+2. [Getting Started](#getting-started)
+3. [API Endpoints](#api-endpoints)
+4. [Running the Application](#running-the-application)
+5. [Testing the API](#testing-the-api)
+6. [Configuration](#configuration)
+7. [Database Initialization](#database-initialization)
+8. [Contributing](#contributing)
+9. [License](#license)
 
-## Prerequisites
+## Project Overview
 
-- Java 11 or later
-- Spring Boot 2.6.0 or later
-- PostgreSQL (or another compatible SQL database)
-- Maven or Gradle (for dependency management)
+The Makersharks Supplier Search API allows you to retrieve a list of manufacturers based on:
+- Location
+- Nature of business
+- Manufacturing processes
 
-## Setup
+This is a proof-of-concept API built using Spring Boot.
 
-### 1. Clone the Repository
+## Getting Started
 
-```bash
-git clone https://github.com/yourusername/supplier-management-system.git
-cd supplier-management-system
-2. Configure Database
-Update the application.properties file to configure your database connection. Here’s an example for PostgreSQL:
+### Prerequisites
 
-properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/yourdatabase
-spring.datasource.username=yourusername
-spring.datasource.password=yourpassword
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-3. Initialize Database
-Make sure your database schema is set up. Place your data.sql file in the src/main/resources directory to seed initial data.
+- JDK 11 or higher
+- Maven
+- H2 Database (for development and testing)
 
-Example data.sql:
+### Installation
 
-sql
--- Sample data for SUPPLIER table
-INSERT INTO SUPPLIER (SUPPLIER_ID, COMPANY_NAME, WEBSITE, LOCATION, NATURE_OF_BUSINESS) VALUES
-(1, 'ABC Manufacturing', 'http://abc.com', 'India', 'SMALL_SCALE'),
-(2, 'XYZ Industries', 'http://xyz.com', 'USA', 'LARGE_SCALE'),
--- Add more suppliers as needed...
+1. **Clone the Repository:**
 
--- Sample data for SUPPLIER_PROCESSES table
-INSERT INTO SUPPLIER_PROCESSES (SUPPLIER_ID, PROCESS) VALUES
-(1, '3D_PRINTING'),
-(2, 'MOULDING'),
--- Add more processes as needed...
-4. Build and Run
-Build the project using Maven or Gradle.
+    ```bash
+    git clone https://github.com/yourusername/makersharks-supplier-api.git
+    cd makersharks-supplier-api
+    ```
 
-Maven:
+2. **Build the Project:**
 
-bash
-mvn clean install
-mvn spring-boot:run
-Gradle:
+    ```bash
+    mvn clean install
+    ```
 
-bash
-./gradlew build
-./gradlew bootRun
-Usage
-API Endpoints
-Find Suppliers
-GET /suppliers
+## API Endpoints
 
-Query suppliers based on location, nature of business, and manufacturing processes.
+### 1. Query Suppliers
 
-Request Parameters:
+- **URL:** `/api/supplier/query`
+- **Method:** `POST`
+- **Description:** Retrieves a list of manufacturers based on the provided criteria.
+- **Request Headers:**
 
-location (String) - e.g., "India"
-natureOfBusiness (String) - e.g., "SMALL_SCALE"
-processes (Array of Strings) - e.g., ["3D_PRINTING", "COATING"]
-page (int) - Page number for pagination (default: 0)
-size (int) - Number of records per page (default: 10)
-Example Request:
+    ```http
+    Content-Type: application/json
+    ```
 
-http
-GET /suppliers?location=India&natureOfBusiness=SMALL_SCALE&processes=3D_PRINTING,COATING&page=0&size=10
-Example Response:
+- **Request Body:**
 
-[
-  {
-    "supplierId": 1,
-    "companyName": "ABC Manufacturing",
-    "website": "http://abc.com",
-    "location": "India",
-    "natureOfBusiness": "SMALL_SCALE",
-    "manufacturingProcesses": ["3D_PRINTING"]
-  },
-  {
-    "supplierId": 4,
-    "companyName": "Eco Solutions",
-    "website": "http://ecosolutions.com",
-    "location": "India",
-    "natureOfBusiness": "SMALL_SCALE",
-    "manufacturingProcesses": ["COATING"]
-  }
-  // More suppliers...
-]
-How It Works
-Data Model: The system uses two primary tables:
+    ```json
+    {
+        "location": "India",
+        "natureOfBusiness": "SMALL_SCALE",
+        "manufacturingProcesses": ["_3D_PRINTING"],
+        "page": 0,
+        "size": 10
+    }
+    ```
 
-SUPPLIER for storing supplier details.
-SUPPLIER_PROCESSES for storing the manufacturing processes associated with each supplier.
-Repository Layer: Custom queries are defined to fetch suppliers based on filtering criteria. For example, findSuppliers method in SupplierRepository fetches suppliers that match the location, nature of business, and manufacturing processes.
+- **Response:**
 
-Service Layer: Handles business logic and interacts with the repository layer. The SupplierService class provides methods to query and manipulate supplier data.
+    ```json
+    [
+        {
+            "supplierId": 1,
+            "companyName": "ABC Manufacturing",
+            "website": "http://abc.com",
+            "location": "India",
+            "natureOfBusiness": "SMALL_SCALE",
+            "manufacturingProcesses": ["_3D_PRINTING"]
+        },
+        ...
+    ]
+    ```
 
-Controller Layer: Exposes REST endpoints for querying suppliers. The SupplierController class handles incoming requests, invokes service methods, and returns the results.
+## Running the Application
 
-Troubleshooting
-Ensure that your database is up and running.
-Verify that the database configuration in application.properties is correct.
-Check logs for any errors or warnings related to database connections or queries.
+1. **Run the Spring Boot Application:**
+
+    ```bash
+    mvn spring-boot:run
+    ```
+
+2. **Access the API:**
+
+    The API will be available at `http://localhost:8080`.
+
+## Testing the API
+
+You can use tools like `curl`, Postman, or any HTTP client to test the API. Here are some example `curl` commands:
+
+### Example `curl` Commands
+
+1. **Query Suppliers:**
+
+    ```bash
+    curl -X POST "http://localhost:8080/api/supplier/query" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "location": "India",
+        "natureOfBusiness": "SMALL_SCALE",
+        "manufacturingProcesses": ["_3D_PRINTING"],
+        "page": 0,
+        "size": 10
+    }'
+    ```
+
+## Configuration
+
+Configuration for the application is specified in the `application.properties` file.
+
+- **Database Configuration:**
+
+    ```properties
+    spring.datasource.url=jdbc:h2:mem:testdb
+    spring.datasource.driverClassName=org.h2.Driver
+    spring.datasource.username=sa
+    spring.datasource.password=password
+
+    spring.h2.console.enabled=true
+    spring.h2.console.path=/h2-console
+    ```
+
+- **Logging Level:**
+
+    ```properties
+    logging.level.com.makersharks.supplierapi=INFO
+    ```
+
+## Database Initialization
+
+The H2 in-memory database is used for development and testing. The schema and initial data are defined in `schema.sql` and `data.sql`.
+
+- **Schema File (`schema.sql`):**
+
+    ```sql
+    CREATE TABLE SUPPLIER (
+        SUPPLIER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+        COMPANY_NAME VARCHAR(255) NOT NULL,
+        WEBSITE VARCHAR(255),
+        LOCATION VARCHAR(255) NOT NULL,
+        NATURE_OF_BUSINESS VARCHAR(50) NOT NULL
+    );
+
+    CREATE TABLE SUPPLIER_PROCESSES (
+        SUPPLIER_ID BIGINT NOT NULL,
+        PROCESS VARCHAR(50) NOT NULL,
+        FOREIGN KEY (SUPPLIER_ID) REFERENCES SUPPLIER(SUPPLIER_ID)
+    );
+    ```
+
+- **Data File (`data.sql`):**
+
+    ```sql
+    INSERT INTO SUPPLIER (COMPANY_NAME, WEBSITE, LOCATION, NATURE_OF_BUSINESS) VALUES ('ABC Manufacturing', 'http://abc.com', 'India', 'SMALL_SCALE');
+    INSERT INTO SUPPLIER_PROCESSES (SUPPLIER_ID, PROCESS) VALUES (1, '_3D_PRINTING');
+
+    -- Additional sample data...
+    ```
+
+## Contributing
+
+Feel free to fork this repository, make changes, and create pull requests. For major changes or improvements, please open an issue first to discuss the proposed changes.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+If you have any questions or need further assistance, please reach out to the project maintainers.
