@@ -171,13 +171,6 @@ The H2 in-memory database is used for development and testing. The schema and in
     -- Additional sample data...
     ```
 
-## Contributing
-
-Feel free to fork this repository, make changes, and create pull requests. For major changes or improvements, please open an issue first to discuss the proposed changes.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
